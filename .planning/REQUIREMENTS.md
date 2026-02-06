@@ -105,43 +105,53 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CHAT-01 | TBD | Pending |
-| CHAT-02 | TBD | Pending |
-| CHAT-03 | TBD | Pending |
-| CHAT-04 | TBD | Pending |
-| CHAT-05 | TBD | Pending |
-| CHAT-06 | TBD | Pending |
-| CANV-01 | TBD | Pending |
-| CANV-02 | TBD | Pending |
-| CANV-03 | TBD | Pending |
-| CANV-04 | TBD | Pending |
-| CANV-05 | TBD | Pending |
-| CANV-06 | TBD | Pending |
-| CANV-07 | TBD | Pending |
-| GEN-01 | TBD | Pending |
-| GEN-02 | TBD | Pending |
-| GEN-03 | TBD | Pending |
-| GEN-04 | TBD | Pending |
-| GEN-05 | TBD | Pending |
-| GEN-06 | TBD | Pending |
-| GEN-07 | TBD | Pending |
-| BRAND-01 | TBD | Pending |
-| BRAND-02 | TBD | Pending |
-| BRAND-03 | TBD | Pending |
-| BRAND-04 | TBD | Pending |
-| HIST-01 | TBD | Pending |
-| HIST-02 | TBD | Pending |
-| EXPORT-01 | TBD | Pending |
-| EXPORT-02 | TBD | Pending |
-| UX-01 | TBD | Pending |
-| UX-02 | TBD | Pending |
-| UX-03 | TBD | Pending |
+| CHAT-01 | Phase 2 | Pending |
+| CHAT-02 | Phase 2 | Pending |
+| CHAT-03 | Phase 3 | Pending |
+| CHAT-04 | Phase 3 | Pending |
+| CHAT-05 | Phase 3 | Pending |
+| CHAT-06 | Phase 6 | Pending |
+| CANV-01 | Phase 4 | Pending |
+| CANV-02 | Phase 4 | Pending |
+| CANV-03 | Phase 6 | Pending |
+| CANV-04 | Phase 4 | Pending |
+| CANV-05 | Phase 4 | Pending |
+| CANV-06 | Phase 4 | Pending |
+| CANV-07 | Phase 4 | Pending |
+| GEN-01 | Phase 5 | Pending |
+| GEN-02 | Phase 5 | Pending |
+| GEN-03 | Phase 5 | Pending |
+| GEN-04 | Phase 5 | Pending |
+| GEN-05 | Phase 5 | Pending |
+| GEN-06 | Phase 5 | Pending |
+| GEN-07 | Phase 5 | Pending |
+| BRAND-01 | Phase 2 | Pending |
+| BRAND-02 | Phase 1, 3 | Pending |
+| BRAND-03 | Phase 2 | Pending |
+| BRAND-04 | Phase 3 | Pending |
+| HIST-01 | Phase 5 | Pending |
+| HIST-02 | Phase 5 | Pending |
+| EXPORT-01 | Phase 6 | Pending |
+| EXPORT-02 | Phase 6 | Pending |
+| UX-01 | Phase 1, 6 | Pending |
+| UX-02 | Phase 4 | Pending |
+| UX-03 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 30 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 30
+- v1 requirements: 31 total
+- Mapped to phases: 31
+- Unmapped: 0
+
+**Coverage by Phase:**
+| Phase | Requirements |
+|-------|--------------|
+| Phase 1 | BRAND-02 (partial), UX-01 (partial) |
+| Phase 2 | CHAT-01, CHAT-02, BRAND-01, BRAND-03 |
+| Phase 3 | CHAT-03, CHAT-04, CHAT-05, BRAND-02 (completion), BRAND-04 |
+| Phase 4 | CANV-01, CANV-02, CANV-04, CANV-05, CANV-06, CANV-07, UX-02 |
+| Phase 5 | GEN-01, GEN-02, GEN-03, GEN-04, GEN-05, GEN-06, GEN-07, HIST-01, HIST-02 |
+| Phase 6 | CHAT-06, CANV-03, EXPORT-01, EXPORT-02, UX-01 (completion), UX-03 |
 
 ---
 *Requirements defined: 2026-02-06*
-*Last updated: 2026-02-06 after initial definition*
+*Last updated: 2026-02-06 after roadmap creation*
