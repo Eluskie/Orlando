@@ -31,11 +31,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Cost monitoring and rate limiting are active on generation endpoints
   4. Mock AI mode allows development without burning API quota
   5. Design system components (colors, typography, spacing) follow Linear/Anthropic aesthetic
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Database and project setup
-- [ ] 01-02: State architecture and cost controls
+- [ ] 01-01-PLAN.md - Initialize Next.js 15.5 project with Drizzle schema for brands, conversations, generations, assets
+- [ ] 01-02-PLAN.md - Scaffold Zustand stores, mock AI mode, rate limiting, Linear/Anthropic design system
 
 ### Phase 2: Chat Interface
 **Goal**: Users can have a conversation that initiates brand creation
