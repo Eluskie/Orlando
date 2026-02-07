@@ -1,26 +1,60 @@
+"use client";
+
+import { use, useMemo } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import { ChatMessages } from "@/components/chat/chat-messages";
+import { ChatInput } from "@/components/chat/chat-input";
+import { ChatLayout } from "@/components/chat/chat-layout";
+
 /**
  * Brand-specific chat page
  *
  * Dynamic route for individual brand conversations.
- * This will be connected to useChat in Plan 02.
+ * Uses useChat hook for streaming messages with the API.
+ * ChatLayout adapts based on whether brand has content (canvas assets).
  */
-export default async function BrandChatPage({
+export default function BrandChatPage({
   params,
 }: {
   params: Promise<{ brandId: string }>;
 }) {
-  const { brandId } = await params;
+  const { brandId } = use(params);
+
+  // Create transport with brand-specific body
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/chat",
+        body: { brandId },
+      }),
+    [brandId]
+  );
+
+  // Initialize useChat with brand-specific ID and transport
+  const { messages, sendMessage, status, stop } = useChat({
+    id: brandId,
+    transport,
+  });
+
+  // Compute loading state from status
+  const isLoading = status === "submitted" || status === "streaming";
+
+  // For Phase 2, brands have no canvas content yet
+  // This will check actual canvas asset existence in Phase 4
+  const hasContent = false;
 
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <div className="max-w-2xl px-4 text-center">
-        <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-          Chat for {brandId}
-        </h2>
-        <p className="text-gray-500">
-          Chat interface will be connected in Plan 02.
-        </p>
-      </div>
-    </div>
+    <ChatLayout hasContent={hasContent}>
+      <ChatMessages
+        messages={messages}
+        isStreaming={status === "streaming"}
+      />
+      <ChatInput
+        onSend={(text) => sendMessage({ text })}
+        disabled={isLoading}
+        onStop={stop}
+      />
+    </ChatLayout>
   );
 }
