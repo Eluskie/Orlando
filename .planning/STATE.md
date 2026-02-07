@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-06)
 ## Current Position
 
 Phase: 2 of 6 (Chat Interface)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-02-07 - Completed 02-01-PLAN.md (App Shell and Streaming Chat)
+Last activity: 2026-02-07 - Completed 02-02-PLAN.md (Chat UI Components)
 
-Progress: [███░░░░░░░] 19% (3/16 plans)
+Progress: [████░░░░░░] 25% (4/16 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 5 min
-- Total execution time: 16 min
+- Total execution time: 20 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation | 2/2 | 12 min | 6 min |
-| 2. Chat Interface | 1/3 | 4 min | 4 min |
+| 2. Chat Interface | 2/3 | 8 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5 min), 01-02 (7 min), 02-01 (4 min)
-- Trend: Improving efficiency
+- Last 5 plans: 01-01 (5 min), 01-02 (7 min), 02-01 (4 min), 02-02 (4 min)
+- Trend: Consistent efficiency
 
 *Updated after each plan completion*
 
@@ -59,6 +59,9 @@ Recent decisions affecting current work:
 - [02-01]: Route group (chat) handles root path; demo page removed
 - [02-01]: Mock streaming uses 50ms word-by-word delays for natural feel
 - [02-01]: System prompt guides brand creation conversationally (no wizard)
+- [02-02]: DefaultChatTransport with body param for brandId in useChat
+- [02-02]: Use message.parts array for AI SDK v6 (not deprecated content)
+- [02-02]: ChatLayout adaptive: hasContent=false->max-w-3xl, true->w-[350px] left panel
 
 ### Pending Todos
 
@@ -73,5 +76,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-07
-Stopped at: Completed 02-01-PLAN.md (App Shell and Streaming Chat)
+Stopped at: Completed 02-02-PLAN.md (Chat UI Components)
 Resume file: None
