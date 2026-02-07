@@ -5,33 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-06)
 
 **Core value:** Agencies can generate brand-consistent illustrations without contacting the original designer - maintaining perfect style consistency through AI-powered extraction and generation.
-**Current focus:** Phase 1 - Foundation
+**Current focus:** Phase 1 complete, ready for Phase 2
 
 ## Current Position
 
-Phase: 1 of 6 (Foundation)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-02-07 - Completed 01-01-PLAN.md (Project Initialization)
+Phase: 1 of 6 (Foundation) - COMPLETE
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-02-07 - Completed 01-02-PLAN.md (Stores and Design System)
 
-Progress: [█░░░░░░░░░] 6% (1/16 plans)
+Progress: [██░░░░░░░░] 13% (2/16 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 5 min
-- Total execution time: 5 min
+- Total plans completed: 2
+- Average duration: 6 min
+- Total execution time: 12 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1. Foundation | 1/2 | 5 min | 5 min |
+| 1. Foundation | 2/2 | 12 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5 min)
-- Trend: First plan, no trend yet
+- Last 5 plans: 01-01 (5 min), 01-02 (7 min)
+- Trend: Consistent, both plans under 10 min
 
 *Updated after each plan completion*
 
@@ -50,6 +50,11 @@ Recent decisions affecting current work:
 - [01-01]: Canvas positioning fields on assets table for Phase 4 spatial workspace
 - [01-01]: neon-http driver for serverless-first architecture
 - [01-01]: UUID primary keys on all tables
+- [01-02]: Tailwind v4 CSS-first config via @theme inline (no tailwind.config.ts)
+- [01-02]: Partial persistence (only activeBrandId, conversationId) to avoid stale state
+- [01-02]: Canvas undo tracks objects only (not viewport/selection)
+- [01-02]: Mock AI uses SVG data URL placeholders (zero external dependencies)
+- [01-02]: Daily generation limit (50) tracked client-side, server enforcement in Phase 5
 
 ### Pending Todos
 
@@ -64,5 +69,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-07
-Stopped at: Completed 01-01-PLAN.md (Project Initialization)
+Stopped at: Completed 01-02-PLAN.md (Stores and Design System) - Phase 1 complete
 Resume file: None
