@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md - Initialize Next.js 15.5 project with Drizzle schema for brands, conversations, generations, assets
+- [x] 01-01-PLAN.md - Initialize Next.js 15.5 project with Drizzle schema for brands, conversations, generations, assets
 - [ ] 01-02-PLAN.md - Scaffold Zustand stores, mock AI mode, rate limiting, Linear/Anthropic design system
 
 ### Phase 2: Chat Interface
@@ -133,7 +133,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/2 | Not started | - |
+| 1. Foundation | 1/2 | In progress | - |
 | 2. Chat Interface | 0/2 | Not started | - |
 | 3. Style Extraction | 0/3 | Not started | - |
 | 4. Canvas Workspace | 0/3 | Not started | - |
