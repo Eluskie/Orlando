@@ -61,7 +61,7 @@ export default function ChatHomePage() {
 
         const { brand, conversationId } = await response.json();
 
-        // Add brand to local store
+        // Add brand to local store (with conversationId)
         addBrand({
           id: brand.id,
           name: brand.name,
@@ -69,6 +69,7 @@ export default function ChatHomePage() {
           style: brand.style || {},
           createdAt: brand.createdAt,
           updatedAt: brand.updatedAt,
+          conversationId,
         });
 
         // Trigger SWR revalidation to refresh sidebar immediately

@@ -13,6 +13,7 @@ export interface Brand {
   style: BrandStyle;
   createdAt: string;
   updatedAt: string;
+  conversationId?: string | null;
 }
 
 interface BrandState {

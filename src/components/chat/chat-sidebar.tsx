@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Plus, MoreHorizontal, Trash2 } from "lucide-react";
 import { useBrandStore, type Brand } from "@/stores/brand-store";
 
@@ -23,9 +23,10 @@ export function ChatSidebar() {
   const [contextMenuBrandId, setContextMenuBrandId] = useState<string | null>(
     null
   );
+  const [isClearingChat, setIsClearingChat] = useState(false);
 
   // Fetch brands from API using SWR
-  const { data, isLoading, mutate } = useSWR<{ brands: Brand[] }>(
+  const { data, isLoading } = useSWR<{ brands: Brand[] }>(
     "/api/brands",
     fetcher
   );
@@ -56,33 +57,46 @@ export function ChatSidebar() {
 
   const handleContextMenu = (e: React.MouseEvent, brandId: string) => {
     e.preventDefault();
+    e.stopPropagation();
     setContextMenuBrandId(contextMenuBrandId === brandId ? null : brandId);
   };
 
   const handleClearChat = useCallback(
-    async (brandId: string, conversationId?: string) => {
+    async (brand: Brand) => {
+      const conversationId = brand.conversationId;
+
       if (!conversationId) {
-        // Need to get conversationId - for now just close menu
+        console.error("No conversation found for brand");
         setContextMenuBrandId(null);
         return;
       }
 
-      try {
-        await fetch(`/api/conversations/${conversationId}/messages`, {
-          method: "DELETE",
-        });
+      setIsClearingChat(true);
 
-        // If viewing this brand, refresh the page
-        if (activeBrandId === brandId) {
-          router.refresh();
+      try {
+        const response = await fetch(
+          `/api/conversations/${conversationId}/messages`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (!response.ok && response.status !== 204) {
+          throw new Error("Failed to clear chat");
+        }
+
+        // If viewing this brand, force a page reload to reset chat state
+        if (activeBrandId === brand.id) {
+          window.location.reload();
         }
       } catch (error) {
         console.error("Failed to clear chat:", error);
+      } finally {
+        setIsClearingChat(false);
+        setContextMenuBrandId(null);
       }
-
-      setContextMenuBrandId(null);
     },
-    [activeBrandId, router]
+    [activeBrandId]
   );
 
   // Close context menu when clicking outside
@@ -146,13 +160,13 @@ export function ChatSidebar() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          // TODO: Get actual conversationId - for now show message
-                          handleClearChat(brand.id);
+                          handleClearChat(brand);
                         }}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        disabled={isClearingChat}
+                        className="flex w-full items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50"
                       >
                         <Trash2 className="h-4 w-4" />
-                        Clear Chat
+                        {isClearingChat ? "Clearing..." : "Clear Chat"}
                       </button>
                     </div>
                   )}
@@ -181,4 +195,6 @@ export function ChatSidebar() {
  * Trigger SWR revalidation for brands list
  * Can be called from other components after brand creation
  */
-export { useSWR as useBrandsSWR };
+export function refreshBrands() {
+  mutate("/api/brands");
+}

@@ -1,21 +1,40 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { brands, conversations } from "@/lib/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
 /**
  * GET /api/brands
  *
  * Returns all brands ordered by creation date (newest first)
+ * Includes the latest conversationId for each brand
  */
 export async function GET() {
   try {
+    // Get all brands
     const allBrands = await db
       .select()
       .from(brands)
       .orderBy(desc(brands.createdAt));
 
-    return NextResponse.json({ brands: allBrands });
+    // Get conversation IDs for each brand
+    const brandsWithConversations = await Promise.all(
+      allBrands.map(async (brand) => {
+        const [conversation] = await db
+          .select({ id: conversations.id })
+          .from(conversations)
+          .where(eq(conversations.brandId, brand.id))
+          .orderBy(desc(conversations.createdAt))
+          .limit(1);
+
+        return {
+          ...brand,
+          conversationId: conversation?.id ?? null,
+        };
+      })
+    );
+
+    return NextResponse.json({ brands: brandsWithConversations });
   } catch (error) {
     console.error("Failed to fetch brands:", error);
     return NextResponse.json(
@@ -67,7 +86,10 @@ export async function POST(req: Request) {
       .returning();
 
     return NextResponse.json({
-      brand: newBrand,
+      brand: {
+        ...newBrand,
+        conversationId: conversation.id,
+      },
       conversationId: conversation.id,
     });
   } catch (error) {
