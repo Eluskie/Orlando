@@ -47,11 +47,12 @@ Plans:
   3. User can name and identify brands within the chat flow
   4. Chat messages stream in real-time (not appear all at once)
   5. Conversation history persists across browser sessions
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Chat UI components and streaming
-- [ ] 02-02: Brand creation flow and persistence
+- [ ] 02-01-PLAN.md - App shell layout with OpenCode-inspired sidebar and streaming chat API
+- [ ] 02-02-PLAN.md - Chat UI components with streaming messages and Claude-like styling
+- [ ] 02-03-PLAN.md - Brand creation flow, message persistence, and conversation history
 
 ### Phase 3: Style Extraction
 **Goal**: AI extracts structured style data from reference images users upload
@@ -134,7 +135,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-02-07 |
-| 2. Chat Interface | 0/2 | Not started | - |
+| 2. Chat Interface | 0/3 | Not started | - |
 | 3. Style Extraction | 0/3 | Not started | - |
 | 4. Canvas Workspace | 0/3 | Not started | - |
 | 5. AI Generation | 0/3 | Not started | - |
@@ -142,4 +143,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 ---
 *Roadmap created: 2026-02-06*
-*Total phases: 6 | Total plans: 16 (estimated)*
+*Total phases: 6 | Total plans: 17 (estimated)*
