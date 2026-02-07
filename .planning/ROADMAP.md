@@ -13,7 +13,7 @@ Dobra delivers brand style consistency through a chat-first AI workflow that ext
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Database schema, project structure, state architecture, cost controls
-- [ ] **Phase 2: Chat Interface** - Conversational UI, streaming responses, brand creation flow
+- [x] **Phase 2: Chat Interface** - Conversational UI, streaming responses, brand creation flow
 - [ ] **Phase 3: Style Extraction** - Reference upload, AI analysis, JSON style output
 - [ ] **Phase 4: Canvas Workspace** - Spatial canvas, asset display, manipulation controls
 - [ ] **Phase 5: AI Generation** - Imagen integration, text-to-image, image-to-image generation
@@ -50,9 +50,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md - App shell layout with OpenCode-inspired sidebar and streaming chat API
-- [ ] 02-02-PLAN.md - Chat UI components with streaming messages and Claude-like styling
-- [ ] 02-03-PLAN.md - Brand creation flow, message persistence, and conversation history
+- [x] 02-01-PLAN.md - App shell layout with OpenCode-inspired sidebar and streaming chat API
+- [x] 02-02-PLAN.md - Chat UI components with streaming messages and Claude-like styling
+- [x] 02-03-PLAN.md - Brand creation flow, message persistence, and conversation history
 
 ### Phase 3: Style Extraction
 **Goal**: AI extracts structured style data from reference images users upload
@@ -64,12 +64,12 @@ Plans:
   3. User sees feedback on what style elements were extracted
   4. Style JSON is stored with the brand and accessible for generation
   5. User can view brand definition as visual moodboard (references + characteristics)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Image upload and processing
-- [ ] 03-02: Style extraction AI and JSON schema
-- [ ] 03-03: Extraction feedback and moodboard display
+- [ ] 03-01-PLAN.md - Image upload UI and Vercel Blob storage infrastructure
+- [ ] 03-02-PLAN.md - Style extraction AI with Gemini Vision and Zod schema
+- [ ] 03-03-PLAN.md - Extraction feedback card and brand moodboard display
 
 ### Phase 4: Canvas Workspace
 **Goal**: Users have a spatial workspace to view and organize brand assets
@@ -135,7 +135,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-02-07 |
-| 2. Chat Interface | 0/3 | Not started | - |
+| 2. Chat Interface | 3/3 | Complete | 2026-02-07 |
 | 3. Style Extraction | 0/3 | Not started | - |
 | 4. Canvas Workspace | 0/3 | Not started | - |
 | 5. AI Generation | 0/3 | Not started | - |
