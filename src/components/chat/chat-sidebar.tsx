@@ -6,8 +6,16 @@ import useSWR, { mutate } from "swr";
 import { Plus, MoreHorizontal, Trash2 } from "lucide-react";
 import { useBrandStore, type Brand } from "@/stores/brand-store";
 
-// SWR fetcher for brands API
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+// SWR fetcher for brands API with error handling
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    // Return empty brands array on error (e.g., database not configured)
+    console.warn("Failed to fetch brands:", res.status);
+    return { brands: [] };
+  }
+  return res.json();
+};
 
 /**
  * ChatSidebar - Brand navigation sidebar (OpenCode-inspired)
