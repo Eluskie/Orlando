@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.21",
+    "@ai-sdk/react": "^3.0.79",
     "@neondatabase/serverless": "^1.0.2",
     "ai": "^6.0.73",
     "drizzle-orm": "^0.45.1",
@@ -22,6 +23,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-konva": "^19.2.2",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "zundo": "^2.3.0",
     "zustand": "^5.0.11"
   },
