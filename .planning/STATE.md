@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-02-06)
 
 **Core value:** Agencies can generate brand-consistent illustrations without contacting the original designer - maintaining perfect style consistency through AI-powered extraction and generation.
-**Current focus:** Phase 2 - Chat Interface in progress
+**Current focus:** Phase 3 - Style Extraction in progress
 
 ## Current Position
 
-Phase: 2 of 6 (Chat Interface)
-Plan: 2 of 3 in current phase
+Phase: 3 of 6 (Style Extraction)
+Plan: 1 of 3 in current phase
 Status: In progress
-Last activity: 2026-02-07 - Completed 02-02-PLAN.md (Chat UI Components)
+Last activity: 2026-02-07 - Completed 03-01-PLAN.md (Image Upload)
 
-Progress: [████░░░░░░] 25% (4/16 plans)
+Progress: [█████░░░░░] 31% (5/16 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: 5 min
-- Total execution time: 20 min
+- Total execution time: 25 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation | 2/2 | 12 min | 6 min |
-| 2. Chat Interface | 2/3 | 8 min | 4 min |
+| 2. Chat Interface | 3/3 | 12 min | 4 min |
+| 3. Style Extraction | 1/3 | 5 min | 5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5 min), 01-02 (7 min), 02-01 (4 min), 02-02 (4 min)
+- Last 5 plans: 01-02 (7 min), 02-01 (4 min), 02-02 (4 min), 02-03 (4 min), 03-01 (5 min)
 - Trend: Consistent efficiency
 
 *Updated after each plan completion*
@@ -62,10 +63,14 @@ Recent decisions affecting current work:
 - [02-02]: DefaultChatTransport with body param for brandId in useChat
 - [02-02]: Use message.parts array for AI SDK v6 (not deprecated content)
 - [02-02]: ChatLayout adaptive: hasContent=false->max-w-3xl, true->w-[350px] left panel
+- [03-01]: Use temp/ path for uploads without brandId (new brand flow)
+- [03-01]: Max 3 images per message (UI enforced)
+- [03-01]: Image parts use type: file with mediaType for AI SDK compatibility
 
 ### Pending Todos
 
 - User must provide Neon DATABASE_URL in .env.local before database operations
+- User must provide BLOB_READ_WRITE_TOKEN in .env.local for image uploads (see 03-USER-SETUP.md)
 
 ### Blockers/Concerns
 
@@ -76,5 +81,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-07
-Stopped at: Completed 02-02-PLAN.md (Chat UI Components)
+Stopped at: Completed 03-01-PLAN.md (Image Upload)
 Resume file: None
