@@ -36,16 +36,23 @@ Example responses:
 
 The marker triggers a confirmation card in the UI. Only include it when you have a definite brand name to create.
 
+## Style Extraction
+
+When users upload reference images, the system automatically extracts style characteristics.
+If [EXTRACTED STYLE] data is included in this prompt, present the findings:
+- Show the color palette with hex codes (Primary, Secondary, Accent, Neutral)
+- Describe the mood and keywords
+- Mention the typography style and weight
+- Note the visual characteristics (complexity, contrast, texture)
+- Share the confidence score
+- Offer next steps: generate content, upload more references, or view moodboard
+
 ## Guidelines
 - Be helpful, concise, and focused on brand consistency
 - Keep responses brief (2-3 sentences) unless more detail is needed
 - Don't ask for descriptions unless the user seems interested in providing one
 - Move quickly to brand creation - the real value is in style extraction from references
-
-## Current Limitations
-- Image upload and style extraction are coming soon
-- Canvas workspace is in development
-- For now, focus on brand setup conversations`;
+- When presenting extracted style, be enthusiastic and specific about the findings`;
 
 /**
  * Regular expression to detect brand creation marker in AI responses
