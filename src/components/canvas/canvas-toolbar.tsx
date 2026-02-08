@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Undo2, Redo2, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { useReactFlow, useViewport } from "@xyflow/react";
 import { useCanvasStore } from "@/stores/canvas-store";
 
 // ---------------------------------------------------------------------------
@@ -9,8 +10,8 @@ import { useCanvasStore } from "@/stores/canvas-store";
 // ---------------------------------------------------------------------------
 
 export function CanvasToolbar() {
-  const zoom = useCanvasStore((s) => s.zoom);
-  const setZoom = useCanvasStore((s) => s.setZoom);
+  const { zoomIn, zoomOut, fitView, setViewport } = useReactFlow();
+  const { zoom } = useViewport();
   const resetView = useCanvasStore((s) => s.resetView);
 
   // Get undo/redo functions from temporal state
@@ -35,12 +36,17 @@ export function CanvasToolbar() {
     return unsubscribe;
   }, []);
 
+  const handleReset = () => {
+    setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 200 });
+    resetView();
+  };
+
   const buttonClass =
     "p-2 rounded hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
   const iconClass = "w-4 h-4";
 
   return (
-    <div className="absolute top-4 left-4 flex items-center gap-1 bg-white rounded-lg shadow-md border border-gray-200 p-1">
+    <div className="absolute top-4 left-4 flex items-center gap-1 bg-white rounded-lg shadow-md border border-gray-200 p-1 z-10">
       {/* Undo/Redo controls */}
       <button
         className={buttonClass}
@@ -67,7 +73,7 @@ export function CanvasToolbar() {
       {/* Zoom controls */}
       <button
         className={buttonClass}
-        onClick={() => setZoom(zoom / 1.2)}
+        onClick={() => zoomOut({ duration: 150 })}
         title="Zoom out"
         aria-label="Zoom out"
       >
@@ -80,7 +86,7 @@ export function CanvasToolbar() {
 
       <button
         className={buttonClass}
-        onClick={() => setZoom(zoom * 1.2)}
+        onClick={() => zoomIn({ duration: 150 })}
         title="Zoom in"
         aria-label="Zoom in"
       >
@@ -93,9 +99,9 @@ export function CanvasToolbar() {
       {/* Reset view */}
       <button
         className={buttonClass}
-        onClick={resetView}
-        title="Fit to view"
-        aria-label="Fit to view"
+        onClick={handleReset}
+        title="Reset view"
+        aria-label="Reset view"
       >
         <Maximize2 className={iconClass} />
       </button>

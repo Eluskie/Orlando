@@ -1,52 +1,37 @@
 import { create } from "zustand";
 import { temporal } from "zundo";
+import type { Node, Viewport } from "@xyflow/react";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-export interface CanvasObject {
-  id: string;
-  type: "image" | "text" | "shape" | "group";
-  x: number;
-  y: number;
+/** Custom data for image nodes */
+export interface ImageNodeData extends Record<string, unknown> {
+  src: string;
   width: number;
   height: number;
-  rotation: number;
-  scaleX: number;
-  scaleY: number;
   opacity: number;
-  visible: boolean;
   locked: boolean;
-  /** Source URL for image objects */
-  src?: string;
-  /** Text content for text objects */
-  text?: string;
-  /** Font size for text objects */
-  fontSize?: number;
-  /** Font family for text objects */
-  fontFamily?: string;
-  /** Fill color for shapes/text */
-  fill?: string;
-  /** Child IDs for group objects */
-  children?: string[];
+  label?: string;
 }
 
+/** Canvas node types */
+export type CanvasNode = Node<ImageNodeData, "image">;
+
 interface CanvasState {
-  objects: CanvasObject[];
-  selectedIds: string[];
-  zoom: number;
-  panX: number;
-  panY: number;
+  nodes: CanvasNode[];
+  viewport: Viewport;
 
   // Actions
-  addObject: (object: CanvasObject) => void;
-  updateObject: (id: string, updates: Partial<Omit<CanvasObject, "id">>) => void;
-  removeObject: (id: string) => void;
-  setSelection: (ids: string[]) => void;
-  setZoom: (zoom: number) => void;
-  setPan: (x: number, y: number) => void;
+  addNode: (node: CanvasNode) => void;
+  updateNode: (id: string, updates: Partial<CanvasNode>) => void;
+  updateNodeData: (id: string, data: Partial<ImageNodeData>) => void;
+  removeNode: (id: string) => void;
+  setNodes: (nodes: CanvasNode[]) => void;
+  setViewport: (viewport: Viewport) => void;
   resetView: () => void;
+  clearNodes: () => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -56,42 +41,45 @@ interface CanvasState {
 export const useCanvasStore = create<CanvasState>()(
   temporal(
     (set) => ({
-      objects: [],
-      selectedIds: [],
-      zoom: 1,
-      panX: 0,
-      panY: 0,
+      nodes: [],
+      viewport: { x: 0, y: 0, zoom: 1 },
 
-      addObject: (object) =>
-        set((state) => ({ objects: [...state.objects, object] })),
+      addNode: (node) =>
+        set((state) => ({ nodes: [...state.nodes, node] })),
 
-      updateObject: (id, updates) =>
+      updateNode: (id, updates) =>
         set((state) => ({
-          objects: state.objects.map((o) =>
-            o.id === id ? { ...o, ...updates } : o,
+          nodes: state.nodes.map((n) =>
+            n.id === id ? { ...n, ...updates } : n,
           ),
         })),
 
-      removeObject: (id) =>
+      updateNodeData: (id, data) =>
         set((state) => ({
-          objects: state.objects.filter((o) => o.id !== id),
-          selectedIds: state.selectedIds.filter((sid) => sid !== id),
+          nodes: state.nodes.map((n) =>
+            n.id === id ? { ...n, data: { ...n.data, ...data } } : n,
+          ),
         })),
 
-      setSelection: (ids) => set({ selectedIds: ids }),
+      removeNode: (id) =>
+        set((state) => ({
+          nodes: state.nodes.filter((n) => n.id !== id),
+        })),
 
-      setZoom: (zoom) => set({ zoom: Math.max(0.1, Math.min(5, zoom)) }),
+      setNodes: (nodes) => set({ nodes }),
 
-      setPan: (x, y) => set({ panX: x, panY: y }),
+      setViewport: (viewport) => set({ viewport }),
 
-      resetView: () => set({ zoom: 1, panX: 0, panY: 0 }),
+      resetView: () => set({ viewport: { x: 0, y: 0, zoom: 1 } }),
+
+      clearNodes: () => set({ nodes: [] }),
     }),
     {
       limit: 50,
       partialize: (state) => {
-        // Only track objects for undo/redo, not viewport or selection
-        const { objects } = state;
-        return { objects } as CanvasState;
+        // Only track nodes for undo/redo, not viewport
+        const { nodes } = state;
+        return { nodes } as CanvasState;
       },
     },
   ),

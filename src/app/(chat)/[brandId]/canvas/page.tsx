@@ -2,8 +2,9 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { ReactFlowProvider } from "@xyflow/react";
 import { CanvasWorkspace } from "@/components/canvas";
-import { useCanvasStore, type CanvasObject } from "@/stores/canvas-store";
+import { useCanvasStore, type CanvasNode, type ImageNodeData } from "@/stores/canvas-store";
 
 interface BrandAsset {
   id: string;
@@ -22,24 +23,22 @@ interface BrandAsset {
  *
  * Loads brand assets from the API and displays them on the canvas.
  * Clears and reloads assets when brand changes.
+ * Wrapped in ReactFlowProvider for access to ReactFlow hooks.
  */
 export default function CanvasPage() {
   const params = useParams<{ brandId: string }>();
   const brandId = params.brandId;
-  const addObject = useCanvasStore((s) => s.addObject);
+  const addNode = useCanvasStore((s) => s.addNode);
+  const clearNodes = useCanvasStore((s) => s.clearNodes);
   const prevBrandIdRef = useRef<string | null>(null);
 
   // Load assets on mount and brand change
   useEffect(() => {
     if (!brandId) return;
 
-    // Clear existing objects when brand changes
-    const store = useCanvasStore.getState();
+    // Clear existing nodes when brand changes
     if (prevBrandIdRef.current !== brandId) {
-      // Remove all existing objects
-      store.objects.forEach((obj) => {
-        store.removeObject(obj.id);
-      });
+      clearNodes();
       prevBrandIdRef.current = brandId;
     }
 
@@ -51,31 +50,40 @@ export default function CanvasPage() {
       })
       .then((assets: BrandAsset[]) => {
         assets.forEach((asset, index) => {
-          const canvasObj: CanvasObject = {
+          // Create ReactFlow node from asset
+          const node: CanvasNode = {
             id: asset.id,
             type: "image",
-            // Use stored position or distribute randomly
-            x: asset.canvasX ?? 100 + (index % 3) * 250,
-            y: asset.canvasY ?? 100 + Math.floor(index / 3) * 250,
-            width: asset.width ?? 200,
-            height: asset.height ?? 200,
-            rotation: 0,
-            scaleX: asset.canvasScale ?? 1,
-            scaleY: asset.canvasScale ?? 1,
-            opacity: 1,
-            visible: true,
-            locked: false,
-            src: asset.url,
+            position: {
+              // Use stored position or distribute in a grid
+              x: asset.canvasX ?? 100 + (index % 3) * 250,
+              y: asset.canvasY ?? 100 + Math.floor(index / 3) * 250,
+            },
+            data: {
+              src: asset.url,
+              width: asset.width ?? 200,
+              height: asset.height ?? 200,
+              opacity: 1,
+              locked: false,
+              label: asset.name,
+            },
+            // Set initial size via style
+            style: {
+              width: asset.width ?? 200,
+              height: asset.height ?? 200,
+            },
           };
-          addObject(canvasObj);
+          addNode(node);
         });
       })
       .catch(console.error);
-  }, [brandId, addObject]);
+  }, [brandId, addNode, clearNodes]);
 
   return (
     <div className="flex h-screen w-full flex-col bg-gray-100">
-      <CanvasWorkspace />
+      <ReactFlowProvider>
+        <CanvasWorkspace />
+      </ReactFlowProvider>
     </div>
   );
 }

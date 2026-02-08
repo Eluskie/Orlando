@@ -1,110 +1,96 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Stage, Layer } from "react-konva";
-import type Konva from "konva";
-import { useCanvasStore } from "@/stores/canvas-store";
-import { useCanvasInteractions } from "@/hooks/use-canvas-interactions";
-import { CanvasImage } from "./canvas-image";
-import { CanvasTransformer } from "./canvas-transformer";
+import { useCallback, useMemo } from "react";
+import {
+  ReactFlow,
+  Background,
+  BackgroundVariant,
+  Controls,
+  MiniMap,
+  SelectionMode,
+  type Node,
+  type NodeChange,
+  applyNodeChanges,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+
+import { useCanvasStore, type CanvasNode } from "@/stores/canvas-store";
+import { ImageNode } from "./image-node";
 import { CanvasToolbar } from "./canvas-toolbar";
 
 // ---------------------------------------------------------------------------
-// CanvasWorkspace - Main Stage container with responsive dimensions
+// Custom node types
+// ---------------------------------------------------------------------------
+
+const nodeTypes = {
+  image: ImageNode,
+} as const;
+
+// ---------------------------------------------------------------------------
+// CanvasWorkspace - ReactFlow canvas with image nodes
 // ---------------------------------------------------------------------------
 
 export function CanvasWorkspace() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<Konva.Stage>(null);
-  const layerRef = useRef<Konva.Layer>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const nodes = useCanvasStore((s) => s.nodes);
+  const viewport = useCanvasStore((s) => s.viewport);
+  const setNodes = useCanvasStore((s) => s.setNodes);
+  const setViewport = useCanvasStore((s) => s.setViewport);
 
-  const objects = useCanvasStore((s) => s.objects);
-  const selectedIds = useCanvasStore((s) => s.selectedIds);
-  const zoom = useCanvasStore((s) => s.zoom);
-  const panX = useCanvasStore((s) => s.panX);
-  const panY = useCanvasStore((s) => s.panY);
-  const setPan = useCanvasStore((s) => s.setPan);
-  const setSelection = useCanvasStore((s) => s.setSelection);
+  // Handle node changes (position, selection, removal)
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      const updatedNodes = applyNodeChanges(changes, nodes as Node[]);
+      setNodes(updatedNodes as CanvasNode[]);
+    },
+    [nodes, setNodes]
+  );
 
-  // Canvas interactions (wheel zoom)
-  const { handleWheel } = useCanvasInteractions();
-
-  // Measure container and update dimensions on resize
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const updateDimensions = () => {
-      setDimensions({
-        width: container.offsetWidth,
-        height: container.offsetHeight,
-      });
-    };
-
-    // Initial measurement
-    updateDimensions();
-
-    // Observe resize
-    const resizeObserver = new ResizeObserver(updateDimensions);
-    resizeObserver.observe(container);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  // Handle stage drag end (panning)
-  const handleStageDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
-    const stage = e.target as Konva.Stage;
-    setPan(stage.x(), stage.y());
-  };
-
-  // Handle click/tap on empty canvas - deselect all
-  const handleStageClick = (
-    e: Konva.KonvaEventObject<MouseEvent> | Konva.KonvaEventObject<TouchEvent>
-  ) => {
-    // Only deselect if clicking on the stage itself (empty space)
-    if (e.target === e.target.getStage()) {
-      setSelection([]);
-    }
-  };
+  // Memoize node types to prevent unnecessary re-renders
+  const memoizedNodeTypes = useMemo(() => nodeTypes, []);
 
   return (
-    <div ref={containerRef} className="relative h-full w-full overflow-hidden bg-muted">
-      {dimensions.width > 0 && dimensions.height > 0 && (
-        <Stage
-          ref={stageRef}
-          width={dimensions.width}
-          height={dimensions.height}
-          scale={{ x: zoom, y: zoom }}
-          x={panX}
-          y={panY}
-          draggable
-          onDragEnd={handleStageDragEnd}
-          onWheel={handleWheel}
-          onClick={handleStageClick}
-          onTap={handleStageClick}
-        >
-          <Layer ref={layerRef}>
-            {objects.map((obj) => {
-              if (obj.type === "image") {
-                return (
-                  <CanvasImage
-                    key={obj.id}
-                    object={obj}
-                    isSelected={selectedIds.includes(obj.id)}
-                  />
-                );
-              }
-              // Other object types will be added in future plans
-              return null;
-            })}
-            {/* Transformer must render after all objects */}
-            <CanvasTransformer selectedIds={selectedIds} layerRef={layerRef} />
-          </Layer>
-        </Stage>
-      )}
+    <div className="relative h-full w-full">
+      <ReactFlow
+        nodes={nodes as Node[]}
+        edges={[]}
+        nodeTypes={memoizedNodeTypes}
+        onNodesChange={onNodesChange}
+        onViewportChange={setViewport}
+        defaultViewport={viewport}
+        fitView={false}
+        panOnScroll
+        selectionOnDrag
+        panOnDrag={[1, 2]}
+        selectionMode={SelectionMode.Partial}
+        selectNodesOnDrag={false}
+        zoomOnDoubleClick={false}
+        minZoom={0.1}
+        maxZoom={5}
+        snapToGrid
+        snapGrid={[10, 10]}
+        className="bg-muted"
+        proOptions={{ hideAttribution: true }}
+      >
+        <Background
+          variant={BackgroundVariant.Dots}
+          gap={20}
+          size={1}
+          color="#d1d5db"
+        />
+        <Controls
+          position="bottom-right"
+          showInteractive={false}
+          className="!bg-white !shadow-md !border !border-gray-200"
+        />
+        <MiniMap
+          position="bottom-left"
+          className="!bg-white !shadow-md !border !border-gray-200"
+          maskColor="rgba(0, 0, 0, 0.1)"
+          nodeColor="#6366f1"
+          pannable
+          zoomable
+        />
+      </ReactFlow>
       <CanvasToolbar />
     </div>
   );
