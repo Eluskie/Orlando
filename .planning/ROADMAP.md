@@ -103,12 +103,12 @@ Plans:
   5. Generated assets appear on canvas immediately (optimistic UI with placeholder)
   6. User can view generation history per brand
   7. User can revisit and reuse previous generations
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: Imagen API integration and job queue
-- [ ] 05-02: Text-to-image generation flow
-- [ ] 05-03: Image-to-image generation and history
+- [ ] 05-01-PLAN.md -- Generation backend: prompt builder, Imagen 4 API integration, generation DB queries
+- [ ] 05-02-PLAN.md -- Canvas generation UI: placeholder nodes, generate toolbar, optimistic flow
+- [ ] 05-03-PLAN.md -- Generation history panel and chat-based generation trigger
 
 ### Phase 6: Integration & Export
 **Goal**: Seamless chat-canvas workflow with export capabilities
