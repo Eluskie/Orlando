@@ -7,7 +7,8 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { ChatLayout } from "@/components/chat/chat-layout";
 import { Moodboard } from "@/components/brand/moodboard";
 import type { BrandStyle } from "@/types/brand";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Layout } from "lucide-react";
+import Link from "next/link";
 
 interface BrandData {
   brand: {
@@ -280,28 +281,39 @@ export default function BrandChatPage({
 
   return (
     <ChatLayout hasContent={false}>
-      {/* Moodboard Section (collapsible) */}
-      {hasStyle && (
-        <div className="border-b border-gray-200">
-          <button
-            onClick={() => setShowMoodboard(!showMoodboard)}
-            className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            <span>Brand Moodboard</span>
-            {showMoodboard ? (
-              <ChevronUp className="h-4 w-4" />
-            ) : (
-              <ChevronDown className="h-4 w-4" />
-            )}
-          </button>
-          {showMoodboard && brandData?.brand?.style && (
-            <div className="border-t border-gray-100">
-              <Moodboard
-                brandName={brandData.brand.name}
-                style={brandData.brand.style}
-              />
-            </div>
+      {/* Brand Actions Bar */}
+      <div className="flex items-center justify-between border-b border-gray-200 px-4 py-2">
+        <div className="flex items-center gap-2">
+          {hasStyle && (
+            <button
+              onClick={() => setShowMoodboard(!showMoodboard)}
+              className="flex items-center gap-2 rounded-md px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+            >
+              <span>Moodboard</span>
+              {showMoodboard ? (
+                <ChevronUp className="h-4 w-4" />
+              ) : (
+                <ChevronDown className="h-4 w-4" />
+              )}
+            </button>
           )}
+        </div>
+        <Link
+          href={`/${brandId}/canvas`}
+          className="flex items-center gap-2 rounded-md px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+        >
+          <Layout className="h-4 w-4" />
+          <span>Open Canvas</span>
+        </Link>
+      </div>
+
+      {/* Moodboard Section (collapsible) */}
+      {hasStyle && showMoodboard && brandData?.brand?.style && (
+        <div className="border-b border-gray-200">
+          <Moodboard
+            brandName={brandData.brand.name}
+            style={brandData.brand.style}
+          />
         </div>
       )}
 
