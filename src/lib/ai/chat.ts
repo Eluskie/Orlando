@@ -80,3 +80,86 @@ export function extractTextFromParts(
     .map((part) => part.text)
     .join("\n");
 }
+
+// ---------------------------------------------------------------------------
+// Generation Intent Detection (for Phase 6 chat-canvas integration)
+// ---------------------------------------------------------------------------
+
+/**
+ * Generation trigger patterns for detecting when user wants to generate images
+ */
+const GENERATION_PATTERNS = [
+  /generate\s+(?:an?\s+)?(?:image|illustration|graphic|picture)/i,
+  /create\s+(?:an?\s+)?(?:image|illustration|graphic|picture)/i,
+  /draw\s+(?:an?\s+)?(?:image|illustration|graphic|picture)/i,
+  /make\s+(?:an?\s+)?(?:image|illustration|graphic|picture)/i,
+];
+
+/**
+ * Detect if a message contains generation intent.
+ * Extracts the prompt from phrases like "generate an image of a sunset".
+ *
+ * @param message - The user's message
+ * @returns Object with isGeneration flag and extracted prompt (or null)
+ */
+export function detectGenerationIntent(message: string): {
+  isGeneration: boolean;
+  prompt: string | null;
+} {
+  for (const pattern of GENERATION_PATTERNS) {
+    if (pattern.test(message)) {
+      // Extract the rest of the message as the prompt
+      // Remove the trigger phrase and optional "of" preposition
+      const prompt = message
+        .replace(
+          /^(generate|create|make|draw)\s+(?:an?\s+)?(?:image|illustration|graphic|picture)\s+(?:of\s+)?/i,
+          ""
+        )
+        .trim();
+
+      return { isGeneration: true, prompt: prompt || null };
+    }
+  }
+
+  return { isGeneration: false, prompt: null };
+}
+
+/**
+ * Trigger generation from chat programmatically.
+ * Calls the /api/generate endpoint with the provided prompt and brandId.
+ *
+ * NOTE: This function is a utility for Phase 6 integration. The actual wiring
+ * into the chat UI (Chat input -> detectGenerationIntent -> triggerGenerationFromChat
+ * -> add results to canvas) is deferred to Phase 6 (Integration & Export).
+ *
+ * @param prompt - The generation prompt
+ * @param brandId - The brand ID for style context
+ * @returns Promise with generation result (generationId and assets)
+ */
+export async function triggerGenerationFromChat(
+  prompt: string,
+  brandId: string
+): Promise<{
+  generationId: string;
+  assets: Array<{ id: string; url: string; name: string }>;
+}> {
+  const response = await fetch("/api/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prompt,
+      brandId,
+      count: 4, // Default to 4 variations for chat-triggered generation
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Generation failed: ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  return {
+    generationId: result.generationId,
+    assets: result.assets,
+  };
+}

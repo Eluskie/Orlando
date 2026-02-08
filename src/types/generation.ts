@@ -7,4 +7,7 @@ export interface GenerationMetadata {
   negativePrompt?: string;
   aspectRatio?: string;
   styleStrength?: number;
+  styledPrompt?: string;
+  count?: number;
+  sourceImage?: string;
 }

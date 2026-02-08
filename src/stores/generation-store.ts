@@ -26,6 +26,16 @@ interface GenerationState {
   dailyLimit: number;
   dailyResetDate: string;
 
+  // Placeholder tracking for optimistic UI
+  placeholders: Record<
+    string,
+    {
+      prompt: string;
+      brandId: string;
+      status: "pending" | "generating" | "complete" | "error";
+    }
+  >;
+
   // Computed
   canGenerate: () => boolean;
   remainingGenerations: () => number;
@@ -40,6 +50,17 @@ interface GenerationState {
   setActiveGeneration: (id: string | null) => void;
   incrementDailyCount: () => void;
   resetDailyCountIfNeeded: () => void;
+
+  // Placeholder actions
+  addPlaceholder: (
+    id: string,
+    data: { prompt: string; brandId: string },
+  ) => void;
+  updatePlaceholderStatus: (
+    id: string,
+    status: "pending" | "generating" | "complete" | "error",
+  ) => void;
+  removePlaceholder: (id: string) => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -61,6 +82,7 @@ export const useGenerationStore = create<GenerationState>()((set, get) => ({
   dailyCount: 0,
   dailyLimit: 50,
   dailyResetDate: getTodayDateString(),
+  placeholders: {},
 
   canGenerate: () => {
     const state = get();
@@ -118,4 +140,30 @@ export const useGenerationStore = create<GenerationState>()((set, get) => ({
       set({ dailyCount: 0, dailyResetDate: today });
     }
   },
+
+  addPlaceholder: (id, data) =>
+    set((state) => ({
+      placeholders: {
+        ...state.placeholders,
+        [id]: { ...data, status: "pending" },
+      },
+    })),
+
+  updatePlaceholderStatus: (id, status) =>
+    set((state) => {
+      const placeholder = state.placeholders[id];
+      if (!placeholder) return state;
+      return {
+        placeholders: {
+          ...state.placeholders,
+          [id]: { ...placeholder, status },
+        },
+      };
+    }),
+
+  removePlaceholder: (id) =>
+    set((state) => {
+      const { [id]: removed, ...rest } = state.placeholders;
+      return { placeholders: rest };
+    }),
 }));

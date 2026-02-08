@@ -16,8 +16,15 @@ export interface ImageNodeData extends Record<string, unknown> {
   label?: string;
 }
 
-/** Canvas node types */
-export type CanvasNode = Node<ImageNodeData, "image">;
+/** Custom data for placeholder nodes */
+export interface PlaceholderNodeData extends Record<string, unknown> {
+  prompt: string;
+  status: "pending" | "generating" | "complete" | "error";
+  errorMessage?: string;
+}
+
+/** Canvas node types - use a flexible union with Record<string, unknown> for data */
+export type CanvasNode = Node<Record<string, unknown>, string>;
 
 interface CanvasState {
   nodes: CanvasNode[];

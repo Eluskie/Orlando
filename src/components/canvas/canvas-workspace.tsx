@@ -16,7 +16,10 @@ import "@xyflow/react/dist/style.css";
 
 import { useCanvasStore, type CanvasNode } from "@/stores/canvas-store";
 import { ImageNode } from "./image-node";
+import { PlaceholderNode } from "./placeholder-node";
 import { CanvasToolbar } from "./canvas-toolbar";
+import { GenerationToolbar } from "./generation-toolbar";
+import { GenerationHistory } from "./generation-history";
 
 // ---------------------------------------------------------------------------
 // Custom node types
@@ -24,6 +27,7 @@ import { CanvasToolbar } from "./canvas-toolbar";
 
 const nodeTypes = {
   image: ImageNode,
+  placeholder: PlaceholderNode,
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -92,6 +96,8 @@ export function CanvasWorkspace() {
         />
       </ReactFlow>
       <CanvasToolbar />
+      <GenerationToolbar />
+      <GenerationHistory />
     </div>
   );
 }
