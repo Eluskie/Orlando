@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Database schema, project structure, state architecture, cost controls
 - [x] **Phase 2: Chat Interface** - Conversational UI, streaming responses, brand creation flow
-- [ ] **Phase 3: Style Extraction** - Reference upload, AI analysis, JSON style output
+- [x] **Phase 3: Style Extraction** - Reference upload, AI analysis, JSON style output
 - [ ] **Phase 4: Canvas Workspace** - Spatial canvas, asset display, manipulation controls
 - [ ] **Phase 5: AI Generation** - Imagen integration, text-to-image, image-to-image generation
 - [ ] **Phase 6: Integration & Export** - Chat-canvas connection, export functionality, UX polish
@@ -68,8 +68,8 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md - Image upload UI and Vercel Blob storage infrastructure
-- [ ] 03-02-PLAN.md - Style extraction AI with Gemini Vision and Zod schema
-- [ ] 03-03-PLAN.md - Extraction feedback card and brand moodboard display
+- [x] 03-02-PLAN.md - Style extraction AI with Gemini Vision and Zod schema
+- [x] 03-03-PLAN.md - Extraction feedback card and brand moodboard display
 
 ### Phase 4: Canvas Workspace
 **Goal**: Users have a spatial workspace to view and organize brand assets
@@ -83,12 +83,13 @@ Plans:
   5. User can drag and arrange assets on canvas
   6. User can switch between different brand workspaces
   7. Toolbar with common actions is visible
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 04-01: Konva canvas setup and basic rendering
-- [ ] 04-02: Canvas interactions (zoom, pan, select, drag)
-- [ ] 04-03: Undo/redo and workspace switching
+- [ ] 04-01-PLAN.md - Konva canvas Stage setup and image rendering with drag support
+- [ ] 04-02-PLAN.md - Canvas interactions: wheel zoom, pan, selection, and Transformer
+- [ ] 04-03-PLAN.md - Toolbar with undo/redo and zoom controls
+- [ ] 04-04-PLAN.md - Canvas route, asset loading per brand, and navigation
 
 ### Phase 5: AI Generation
 **Goal**: Users can generate brand-consistent images via text or sketch input
@@ -136,11 +137,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-02-07 |
 | 2. Chat Interface | 3/3 | Complete | 2026-02-07 |
-| 3. Style Extraction | 1/3 | In progress | - |
-| 4. Canvas Workspace | 0/3 | Not started | - |
+| 3. Style Extraction | 3/3 | Complete | 2026-02-07 |
+| 4. Canvas Workspace | 0/4 | Not started | - |
 | 5. AI Generation | 0/3 | Not started | - |
 | 6. Integration & Export | 0/3 | Not started | - |
 
 ---
 *Roadmap created: 2026-02-06*
-*Total phases: 6 | Total plans: 17 (estimated)*
+*Total phases: 6 | Total plans: 18 (estimated)*
