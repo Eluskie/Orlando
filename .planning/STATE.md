@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-06)
 
 **Core value:** Agencies can generate brand-consistent illustrations without contacting the original designer - maintaining perfect style consistency through AI-powered extraction and generation.
-**Current focus:** Phase 5 - AI Generation planning
+**Current focus:** Phase 6 - Integration & Export planned
 
 ## Current Position
 
-Phase: 5 of 6 (AI Generation)
-Plan: 0 of 3 in current phase (planning)
-Status: Planning
-Last activity: 2026-02-08 - Completed Phase 4 (Canvas Workspace with ReactFlow)
+Phase: 6 of 6 (Integration & Export)
+Plan: 0 of 3 in current phase (planned)
+Status: Planned
+Last activity: 2026-02-08 - Planned Phase 6 (Integration & Export)
 
-Progress: [████████░░] 75% (12/16 plans)
+Progress: [██████████] 93% (15/18 plans total)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
+- Total plans completed: 15
 - Average duration: 5 min
-- Total execution time: 55 min
+- Total execution time: 80 min
 
 **By Phase:**
 
@@ -31,10 +31,12 @@ Progress: [████████░░] 75% (12/16 plans)
 | 2. Chat Interface | 3/3 | 12 min | 4 min |
 | 3. Style Extraction | 3/3 | 8 min | 3 min |
 | 4. Canvas Workspace | 4/4 | 23 min | 6 min |
+| 5. AI Generation | 3/3 | 25 min | 8 min |
 
 **Recent Trend:**
-- Phase 4 included ReactFlow migration (user request)
-- Trend: Consistent efficiency
+- Phase 5 completed successfully with full backend, UI, and history
+- Trend: Consistent velocity, more complex features
+- Ready for Phase 6 (Integration & Export)
 
 *Updated after each plan completion*
 
@@ -72,19 +74,29 @@ Recent decisions affecting current work:
 - [04]: Built-in zoom/pan, MiniMap, Controls, and Background from ReactFlow
 - [04]: Upload route now creates asset records in database for canvas display
 - [04]: NodeResizer for resize handles on selected images
+- [05-01]: Style appended AFTER user prompt (harder to override via prompt injection)
+- [05-01]: Mock SVG data URLs for development (no R2 credentials needed)
+- [05-01]: Image-to-image with graceful fallback (prepend context to prompt)
+- [05-01]: Store '[provided]' marker for sourceImage, not full base64 (avoid DB bloat)
+- [05-02]: Flexible node typing (Node<Record<string, unknown>, string>) for multiple node types
+- [05-02]: Object URL management for image previews (create + revoke on cleanup)
+- [05-02]: Placeholder nodes with optimistic UI (instant feedback during 2-30s generation)
+- [05-03]: History panel positioned at right-52 (left of GenerationToolbar)
+- [05-03]: Chat generation utilities created but UI wiring deferred to Phase 6
 
 ### Pending Todos
 
 - User must provide Neon DATABASE_URL in .env.local before database operations
-- User must provide R2 credentials in .env.local for image uploads
+- User must provide R2 credentials in .env.local for image uploads (optional in mock mode)
+- User must provide GOOGLE_GENERATIVE_AI_API_KEY for real Imagen generation (optional - mock mode works without)
 
 ### Blockers/Concerns
 
-- [Research]: Imagen API integration patterns need research during Phase 5 planning
-- [Research]: SVG export may not be feasible (AI outputs PNG) - may need high-res PNG alternative
+- None currently - Phase 5 complete and ready for Phase 6
 
 ## Session Continuity
 
 Last session: 2026-02-08
-Stopped at: Completed Phase 4 (Canvas Workspace)
+Stopped at: Completed Phase 5 (AI Generation)
+Next phase: Phase 6 (Integration & Export)
 Resume file: None

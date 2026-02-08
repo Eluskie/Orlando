@@ -121,12 +121,12 @@ Plans:
   4. User can export generated assets as SVG (if feasible, otherwise high-res PNG)
   5. Generation shows responsive loading states and progress feedback
   6. UI follows modern, clean aesthetic throughout (Linear/Granola/Anthropic style)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 06-01: Chat-canvas integration and sidebar
-- [ ] 06-02: Export functionality
-- [ ] 06-03: Loading states and UX polish
+- [ ] 06-01-PLAN.md - Chat sidebar with generation detection and canvas integration
+- [ ] 06-02-PLAN.md - Canvas and asset export as PNG with transparency
+- [ ] 06-03-PLAN.md - Loading states, toast notifications, transitions, error handling
 
 ## Progress
 
@@ -139,8 +139,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 2. Chat Interface | 3/3 | Complete | 2026-02-07 |
 | 3. Style Extraction | 3/3 | Complete | 2026-02-07 |
 | 4. Canvas Workspace | 4/4 | Complete | 2026-02-08 |
-| 5. AI Generation | 0/3 | Not started | - |
-| 6. Integration & Export | 0/3 | Not started | - |
+| 5. AI Generation | 3/3 | Complete | 2026-02-08 |
+| 6. Integration & Export | 0/3 | Planned | - |
 
 ---
 *Roadmap created: 2026-02-06*
