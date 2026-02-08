@@ -6,6 +6,8 @@ import type Konva from "konva";
 import { useCanvasStore } from "@/stores/canvas-store";
 import { useCanvasInteractions } from "@/hooks/use-canvas-interactions";
 import { CanvasImage } from "./canvas-image";
+import { CanvasTransformer } from "./canvas-transformer";
+import { CanvasToolbar } from "./canvas-toolbar";
 
 // ---------------------------------------------------------------------------
 // CanvasWorkspace - Main Stage container with responsive dimensions
@@ -14,6 +16,7 @@ import { CanvasImage } from "./canvas-image";
 export function CanvasWorkspace() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage>(null);
+  const layerRef = useRef<Konva.Layer>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   const objects = useCanvasStore((s) => s.objects);
@@ -22,6 +25,7 @@ export function CanvasWorkspace() {
   const panX = useCanvasStore((s) => s.panX);
   const panY = useCanvasStore((s) => s.panY);
   const setPan = useCanvasStore((s) => s.setPan);
+  const setSelection = useCanvasStore((s) => s.setSelection);
 
   // Canvas interactions (wheel zoom)
   const { handleWheel } = useCanvasInteractions();
@@ -56,8 +60,18 @@ export function CanvasWorkspace() {
     setPan(stage.x(), stage.y());
   };
 
+  // Handle click/tap on empty canvas - deselect all
+  const handleStageClick = (
+    e: Konva.KonvaEventObject<MouseEvent> | Konva.KonvaEventObject<TouchEvent>
+  ) => {
+    // Only deselect if clicking on the stage itself (empty space)
+    if (e.target === e.target.getStage()) {
+      setSelection([]);
+    }
+  };
+
   return (
-    <div ref={containerRef} className="h-full w-full overflow-hidden bg-muted">
+    <div ref={containerRef} className="relative h-full w-full overflow-hidden bg-muted">
       {dimensions.width > 0 && dimensions.height > 0 && (
         <Stage
           ref={stageRef}
@@ -69,8 +83,10 @@ export function CanvasWorkspace() {
           draggable
           onDragEnd={handleStageDragEnd}
           onWheel={handleWheel}
+          onClick={handleStageClick}
+          onTap={handleStageClick}
         >
-          <Layer>
+          <Layer ref={layerRef}>
             {objects.map((obj) => {
               if (obj.type === "image") {
                 return (
@@ -84,9 +100,12 @@ export function CanvasWorkspace() {
               // Other object types will be added in future plans
               return null;
             })}
+            {/* Transformer must render after all objects */}
+            <CanvasTransformer selectedIds={selectedIds} layerRef={layerRef} />
           </Layer>
         </Stage>
       )}
+      <CanvasToolbar />
     </div>
   );
 }
