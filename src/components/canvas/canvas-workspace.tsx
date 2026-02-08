@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Stage, Layer } from "react-konva";
 import type Konva from "konva";
 import { useCanvasStore } from "@/stores/canvas-store";
+import { useCanvasInteractions } from "@/hooks/use-canvas-interactions";
 import { CanvasImage } from "./canvas-image";
 
 // ---------------------------------------------------------------------------
@@ -21,6 +22,9 @@ export function CanvasWorkspace() {
   const panX = useCanvasStore((s) => s.panX);
   const panY = useCanvasStore((s) => s.panY);
   const setPan = useCanvasStore((s) => s.setPan);
+
+  // Canvas interactions (wheel zoom)
+  const { handleWheel } = useCanvasInteractions();
 
   // Measure container and update dimensions on resize
   useEffect(() => {
@@ -64,6 +68,7 @@ export function CanvasWorkspace() {
           y={panY}
           draggable
           onDragEnd={handleStageDragEnd}
+          onWheel={handleWheel}
         >
           <Layer>
             {objects.map((obj) => {
